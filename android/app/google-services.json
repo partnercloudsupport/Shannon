@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "672447087926",
+    "firebase_url": "https://shannon-26719.firebaseio.com",
+    "project_id": "shannon-26719",
+    "storage_bucket": "shannon-26719.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672447087926:android:7db2af8927a69c9d",
+        "android_client_info": {
+          "package_name": "com.example.shannon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "672447087926-k0qhrtnvf1vin0odannihhkraf1ha52e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shannon",
+            "certificate_hash": "92bfa5058665e20b592eded8e31d9fb21019b559"
+          }
+        },
+        {
+          "client_id": "672447087926-jn6h7n5kvcl9eiks6ld4kce3bs5snq9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYdkxZK39-75mFHkThBMdn99YopKD2pbQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "672447087926-jn6h7n5kvcl9eiks6ld4kce3bs5snq9j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
