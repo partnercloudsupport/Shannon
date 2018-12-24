@@ -11,7 +11,7 @@ class EditorHandler {
     final prefs = await SharedPreferences.getInstance();
 
     var data = {
-      "user": user,
+      "username": user,
       "flair": flair,
       "bio": bio,
       "likes": 0,
@@ -22,7 +22,7 @@ class EditorHandler {
         .document(prefs.getString("uid"))
         .setData(data)
         .whenComplete(() {
-      prefs.setString("user", user);
+      prefs.setString("username", user);
       prefs.setString("flair", flair);
       value = true;
     }).catchError((e) {

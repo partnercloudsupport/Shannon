@@ -11,8 +11,8 @@ class EditorPage extends StatefulWidget {
 }
 
 class _EditorPage extends State<EditorPage> {
-  static final formKey = GlobalKey<FormState>();
-  static final scaffoldKey = GlobalKey<ScaffoldState>();
+  static final editorFormKey = GlobalKey<FormState>();
+  static final editorScaffoldKey = GlobalKey<ScaffoldState>();
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
@@ -33,8 +33,8 @@ class _EditorPage extends State<EditorPage> {
   }
 
   submit() async {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
+    if (editorFormKey.currentState.validate()) {
+      editorFormKey.currentState.save();
       editorHandler.submit(_user, currentFlair, _bio).then((response) {
         print(response);
         if (response) {
@@ -138,9 +138,9 @@ class _EditorPage extends State<EditorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: editorScaffoldKey,
       body: Form(
-        key: formKey,
+        key: editorFormKey,
         child: Container(
           padding: EdgeInsets.all(32.0),
           child: ListView(

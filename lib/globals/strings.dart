@@ -9,4 +9,5 @@ class Strings{
   String resetEmail = "an owl has been sent to the email provided 😔";
   String notfoundEmail = "email not found, please try again 😔";
 
+  String userPath = "users";
 }

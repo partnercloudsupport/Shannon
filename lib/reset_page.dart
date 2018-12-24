@@ -12,8 +12,8 @@ class ResetPage extends StatefulWidget {
 }
 
 class _ResetPage extends State<ResetPage> {
-  static final formKey = GlobalKey<FormState>();
-  static final scaffoldKey = GlobalKey<ScaffoldState>();
+  static final resetFormKey = GlobalKey<FormState>();
+  static final resetScaffoldKey = GlobalKey<ScaffoldState>();
 
   String _email;
   bool _enabled = true;
@@ -23,7 +23,7 @@ class _ResetPage extends State<ResetPage> {
   LoginHandler loginHandler = LoginHandler();
   Strings strings = Strings();
   bool validate() {
-    final form = formKey.currentState;
+    final form = resetFormKey.currentState;
     if (form.validate()) {
       form.save();
       toggle();
@@ -45,11 +45,11 @@ class _ResetPage extends State<ResetPage> {
   //       toggle();
   //       if ((response)) {
   //         buildScaffold(
-  //             key: scaffoldKey.currentState, text: strings.resetEmail);
+  //             key: resetScaffoldKey.currentState, text: strings.resetEmail);
   //       } else {
-  //         formKey.currentState.reset();
+  //         resetFormKey.currentState.reset();
   //         buildScaffold(
-  //             key: scaffoldKey.currentState, text: strings.notfoundEmail);
+  //             key: resetScaffoldKey.currentState, text: strings.notfoundEmail);
   //       }
   //     });
   //   }
@@ -96,9 +96,9 @@ class _ResetPage extends State<ResetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: resetScaffoldKey,
       body: Form(
-        key: formKey,
+        key: resetFormKey,
         child: Container(
           padding: EdgeInsets.all(32.0),
           child: ListView(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shannon/post_page.dart';
 import 'package:shannon/setting_page.dart';
 
 class FeedPage extends StatefulWidget {
@@ -23,7 +22,7 @@ class _FeedPage extends State<FeedPage> with TickerProviderStateMixin {
   @override
   initState() {
     super.initState();
-    setUser();
+    setUsername();
     menuOptions = getOptions();
     currentOption = menuOptions[0].value;
     query = refresh();
@@ -42,8 +41,19 @@ class _FeedPage extends State<FeedPage> with TickerProviderStateMixin {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => SettingPage()));
           }),
-      ListTile(title: Text('Log Out'), onTap: () => null),
+      ListTile(title: Text('Log Out'), onTap: logout),
     ];
+  }
+
+  logout() {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString("username", "");
+      prefs.setString("flair", "");
+      prefs.clear();
+      print("cleared");
+    });
+    // Navigator.popAndPushNamed(context, ModalRoute.withName("/LoginPage"));
+    print("poping");
   }
 
   refresh() {
@@ -99,10 +109,11 @@ class _FeedPage extends State<FeedPage> with TickerProviderStateMixin {
     });
   }
 
-  setUser() {
+  setUsername() {
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        username = prefs.get('user') != null ? prefs.get('user') : 'Guest';
+        username =
+            prefs.get('username') != null ? prefs.get('username') : 'Guest';
       });
     });
   }
@@ -177,7 +188,7 @@ class Node {
 }
 
 class MyCustomScaffold extends Scaffold {
-  static GlobalKey<ScaffoldState> _keyScaffold = GlobalKey();
+  static final myKeyScafold = GlobalKey<ScaffoldState>();
 
   MyCustomScaffold({
     AppBar appBar,
@@ -194,7 +205,7 @@ class MyCustomScaffold extends Scaffold {
     bool resizeToAvoidBottomPadding = true,
     bool primary = true,
   }) : super(
-          key: _keyScaffold,
+          key: myKeyScafold,
           appBar: endDrawer != null &&
                   appBar.actions != null &&
                   appBar.actions.isNotEmpty
@@ -217,8 +228,8 @@ class MyCustomScaffold extends Scaffold {
   static AppBar _buildEndDrawerButton(AppBar myAppBar) {
     myAppBar.actions.add(IconButton(
         icon: Icon(Icons.menu),
-        onPressed: () => !_keyScaffold.currentState.isEndDrawerOpen
-            ? _keyScaffold.currentState.openEndDrawer()
+        onPressed: () => !myKeyScafold.currentState.isEndDrawerOpen
+            ? myKeyScafold.currentState.openEndDrawer()
             : null));
     return myAppBar;
   }

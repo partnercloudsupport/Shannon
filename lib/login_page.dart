@@ -3,6 +3,10 @@ import 'package:shannon/widgets/button.dart';
 import 'package:flutter/services.dart';
 import 'package:shannon/handler/login_handler.dart';
 import 'package:shannon/builder/scaffold_builder.dart';
+import 'package:shannon/editor_page.dart';
+import 'package:shannon/landing_page.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:shannon/globals/strings.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,8 +17,8 @@ class LoginPage extends StatefulWidget {
 enum FormType { login, register }
 
 class _LoginPage extends State<LoginPage> {
-  static final formKey = GlobalKey<FormState>();
-  static final scaffoldKey = GlobalKey<ScaffoldState>();
+  static final loginFormKey = GlobalKey<FormState>();
+  static final loginScaffoldKey = GlobalKey<ScaffoldState>();
 
   //Set of controllers to test validity of inputs.
   final TextEditingController userController = TextEditingController();
@@ -34,28 +38,28 @@ class _LoginPage extends State<LoginPage> {
 
   //Instance of login handler to hangle form submission.
   LoginHandler loginHandler = LoginHandler();
-  ScaffoldBuilder scaffoldBuilder = ScaffoldBuilder();
 
-  bool validate() {
-    final form = formKey.currentState;
+  //Global strings.
+  Strings string = new Strings();
+
+  bool verify() {
+    var form = loginFormKey.currentState;
     if (form.validate()) {
+      toggle();
       form.save();
-      if (_formType == FormType.login) {
-        toggle();
-        return true;
-      }
       if (_formType == FormType.register) {
-        if (_password == _validPassword) {
-          toggle();
-          return true;
-        } else {
-          scaffoldBuilder.buildScaffold(
-              scaffoldKey.currentState, "password do not match 😔", 'LIGHT', 4, false);
+        if (_password != _validPassword) {
+          buildScaffold(
+              key: loginScaffoldKey.currentState,
+              text: string.passwordMismatch,
+              color: 'LIGHT');
           return false;
         }
       }
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   void toggle() {
@@ -65,16 +69,27 @@ class _LoginPage extends State<LoginPage> {
   }
 
   void submit() {
-    if (validate()) {
+    if (verify()) {
       if (_formType == FormType.login) {
         loginHandler.login(_username, _password).then((response) {
           toggle();
-          if (response) {
-            //       Navigator.pop(context);
+          print(response);
+          if (response == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LandingPage()),
+            );
+          } else if (response == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EditorPage()),
+            );
           } else {
-            formKey.currentState.reset();
-            scaffoldBuilder.buildScaffold(scaffoldKey.currentState,
-                "wrong username/password, try again 😔", 'LIGHT', 4, false);
+            loginFormKey.currentState.reset();
+          buildScaffold(
+              key: loginScaffoldKey.currentState,
+              text: string.wrongLogin,
+              color: 'LIGHT');
           }
         });
       } else {
@@ -83,9 +98,11 @@ class _LoginPage extends State<LoginPage> {
           if (response) {
             //       Navigator.pop(context);
           } else {
-            formKey.currentState.reset();
-            scaffoldBuilder.buildScaffold(scaffoldKey.currentState,
-                "username already exists, try again 😔", 'LIGHT', 4, false);
+            loginFormKey.currentState.reset();
+           buildScaffold(
+              key: loginScaffoldKey.currentState,
+              text: string.emailExists,
+              color: 'LIGHT');
           }
         });
       }
@@ -93,14 +110,14 @@ class _LoginPage extends State<LoginPage> {
   }
 
   void moveToRegister() {
-    formKey.currentState.reset();
+    loginFormKey.currentState.reset();
     setState(() {
       _formType = FormType.register;
     });
   }
 
   void moveToLogin() {
-    formKey.currentState.reset();
+    loginFormKey.currentState.reset();
     setState(() {
       _formType = FormType.login;
     });
@@ -138,7 +155,6 @@ class _LoginPage extends State<LoginPage> {
             onSaved: (val) => _username = val,
             inputFormatters: [
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9!.-_]")),
-              LengthLimitingTextInputFormatter(20),
             ],
             decoration: InputDecoration(
               hintText: "username",
@@ -161,7 +177,6 @@ class _LoginPage extends State<LoginPage> {
             onSaved: (val) => _password = val,
             inputFormatters: [
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9!.-_]")),
-              LengthLimitingTextInputFormatter(20),
             ],
             decoration: InputDecoration(
               hintText: "password",
@@ -192,7 +207,6 @@ class _LoginPage extends State<LoginPage> {
             onSaved: (val) => _username = val,
             inputFormatters: [
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9!.-_]")),
-              LengthLimitingTextInputFormatter(20),
             ],
             decoration: InputDecoration(
               hintText: "username",
@@ -215,7 +229,6 @@ class _LoginPage extends State<LoginPage> {
             onSaved: (val) => _password = val,
             inputFormatters: [
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9!.v]")),
-              LengthLimitingTextInputFormatter(20),
             ],
             decoration: InputDecoration(
               hintText: "password",
@@ -238,7 +251,6 @@ class _LoginPage extends State<LoginPage> {
             onSaved: (val) => _validPassword = val,
             inputFormatters: [
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9!.-_]")),
-              LengthLimitingTextInputFormatter(20),
             ],
             decoration: InputDecoration(
               hintText: "reenter password",
@@ -261,8 +273,8 @@ class _LoginPage extends State<LoginPage> {
       case FormType.login:
         return [
           Expanded(
-              child: longButton(
-                  "login", "RED", _enabled ? submit : null, false)),
+              child:
+                  longButton("login", "RED", _enabled ? submit : null, false)),
           Expanded(
               child: longButton(
                   "signup?", "RED", _enabled ? moveToRegister : null, false)),
@@ -321,9 +333,9 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: loginScaffoldKey,
       body: Form(
-        key: formKey,
+        key: loginFormKey,
         child: Container(
           padding: EdgeInsets.all(32.0),
           child: ListView(
