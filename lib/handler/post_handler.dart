@@ -9,7 +9,9 @@ class PostHandler {
     final prefs = await SharedPreferences.getInstance();
 
     Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high).catchError((e){
+          print(e.toString());
+        });
 
     print(position.latitude);
     print(position.longitude);

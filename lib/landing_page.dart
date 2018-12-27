@@ -28,6 +28,7 @@ class _LandingPage extends State<LandingPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: TabBarView(
         controller: tabController,
         children: widgetList.map((e) {

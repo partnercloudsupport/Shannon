@@ -1,13 +1,14 @@
 class Strings{
-  String passwordMismatch = "password do not match 😔";
-  String wrongLogin = "wrong email/password, try again 😔";
-  String emailExists = "email already exists, try again 😔";
-  String emptyEmail = "email cannot be empty";
-  String invalidEmail = "email must be of valid format";
-  String emptyPassword = "password cannot be empty";
-  String invalidPassword = "password must be longer than 6 characters";
-  String resetEmail = "an owl has been sent to the email provided 😔";
-  String notfoundEmail = "email not found, please try again 😔";
+  var passwordMismatch = "password do not match 😔";
+  var wrongLogin = "wrong email/password, try again 😔";
+  var emailExists = "email already exists, try again 😔";
+  var emptyEmail = "email cannot be empty";
+  var invalidEmail = "email must be of valid format";
+  var emptyPassword = "password cannot be empty";
+  var invalidPassword = "password must be longer than 6 characters";
+  var resetEmail = "an owl has been sent to the email provided 😔";
+  var notfoundEmail = "email not found, please try again 😔";
 
-  String userPath = "users";
+  var userPath = "users";
+  var options = ['A-Z', 'Z-A', 'Lowest Price First', 'Highest Price First'];
 }

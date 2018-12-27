@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shannon/feed_page.dart';
 import 'package:shannon/feed_page.dart';
+import 'package:shannon/globals/strings.dart';
 
 class LoginHandler {
-  var path = "users";
+  Strings string = new Strings();
   // GoogleSignIn _googleSignIn = new GoogleSignIn(scopes: [
   //   'email',
   //   'https://www.googleapis.com/auth/contacts.readonly',
@@ -36,19 +37,17 @@ class LoginHandler {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((response) async {
       prefs.setString("uid", response.uid);
-      prefs.setString("email", email);
       print(response.uid);
       await Firestore.instance
-          .collection(path)
+          .collection(string.userPath)
           .document(response.uid)
           .get()
           .then((doc) {
         if (doc.exists) {
-          print("doc exists");
           prefs.setString("username", doc.data["username"]);
+          prefs.setString("flair", doc.data["flair"]);
           value = 1;
         } else {
-          print("doc dont exists");
           value = 0;
         }
       });
@@ -68,7 +67,6 @@ class LoginHandler {
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((response) {
       prefs.setString("uid", response.uid);
-      prefs.setString("email", email);
     }).whenComplete(() {
       value = true;
     }).catchError((e) {

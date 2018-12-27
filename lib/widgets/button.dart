@@ -1,35 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shannon/globals/globals.dart';
 
-// class Button {
-Widget circleButton(icon, color, action){
+Widget circleButton(icon, color, action) {
   return Container(
-    padding: EdgeInsets.all(10.0),
-    child: FloatingActionButton(
-      child: icon,
-      onPressed: action,
-      // foregroundColor: colors[color],
-    )
-  );
+      padding: EdgeInsets.all(10.0),
+      child: FloatingActionButton(
+        child: icon,
+        onPressed: action,
+        // foregroundColor: colors[color],
+      ));
 }
 
-
-// Widget regularButton(text, color, action, textColor) {
-//   return Container(
-//     padding: EdgeInsets.all(10.0),
-//     child: RaisedButton(
-//       onPressed: action,
-//       child: Text(
-//         text,
-//         style: TextStyle(color: textColor ? colors['LIGHT'] : colors['DARK']),
-//       ),
-//       color: colors[color],
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
-//     ),
-//   );
-// }
-
-Widget longButton(text, color, action, textColor) {
+Widget longButton(text, color, action) {
   return Container(
     padding: EdgeInsets.all(10.0),
     child: Column(
@@ -39,8 +21,7 @@ Widget longButton(text, color, action, textColor) {
           onPressed: action,
           child: Text(
             text,
-            style:
-                TextStyle(color: textColor ? colors['LIGHT'] : colors['DARK']),
+            style: TextStyle(color: colors['DARK']),
           ),
           color: colors[color],
           shape:
@@ -50,4 +31,3 @@ Widget longButton(text, color, action, textColor) {
     ),
   );
 }
-// }

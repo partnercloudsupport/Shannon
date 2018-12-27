@@ -86,23 +86,26 @@ class _LoginPage extends State<LoginPage> {
             );
           } else {
             loginFormKey.currentState.reset();
-          buildScaffold(
-              key: loginScaffoldKey.currentState,
-              text: string.wrongLogin,
-              color: 'LIGHT');
+            buildScaffold(
+                key: loginScaffoldKey.currentState,
+                text: string.wrongLogin,
+                color: 'LIGHT');
           }
         });
       } else {
         loginHandler.register(_username, _password).then((response) {
           toggle();
           if (response) {
-            //       Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EditorPage()),
+            );
           } else {
             loginFormKey.currentState.reset();
-           buildScaffold(
-              key: loginScaffoldKey.currentState,
-              text: string.emailExists,
-              color: 'LIGHT');
+            buildScaffold(
+                key: loginScaffoldKey.currentState,
+                text: string.emailExists,
+                color: 'LIGHT');
           }
         });
       }
@@ -141,15 +144,15 @@ class _LoginPage extends State<LoginPage> {
       case FormType.login:
         return [
           TextFormField(
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.emailAddress,
             autocorrect: false,
             controller: userController,
             validator: (val) {
               if (val.isEmpty) {
-                return "username cannot be empty";
+                return string.emptyEmail;
               }
-              if (val.length < 6) {
-                return "username must be longer than 6 characters";
+              if (!EmailValidator.validate(val)) {
+                return string.invalidEmail;
               }
             },
             onSaved: (val) => _username = val,
@@ -157,7 +160,7 @@ class _LoginPage extends State<LoginPage> {
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9!.-_]")),
             ],
             decoration: InputDecoration(
-              hintText: "username",
+              hintText: "email",
               contentPadding: EdgeInsets.all(10.0),
             ),
           ),
@@ -168,10 +171,10 @@ class _LoginPage extends State<LoginPage> {
             controller: passController,
             validator: (val) {
               if (val.isEmpty) {
-                return "password cannot be empty";
+                return string.emptyPassword;
               }
               if (val.length < 6) {
-                return "password must be longer than 6 characters";
+                return string.invalidPassword;
               }
             },
             onSaved: (val) => _password = val,
@@ -193,15 +196,15 @@ class _LoginPage extends State<LoginPage> {
       case FormType.register:
         return [
           TextFormField(
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.emailAddress,
             autocorrect: false,
             controller: userController,
             validator: (val) {
               if (val.isEmpty) {
-                return "username cannot be empty";
+                return string.emptyPassword;
               }
-              if (val.length < 6) {
-                return "username must be longer than 6 characters";
+              if (!EmailValidator.validate(val)) {
+                return string.invalidEmail;
               }
             },
             onSaved: (val) => _username = val,
@@ -209,7 +212,7 @@ class _LoginPage extends State<LoginPage> {
               WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9!.-_]")),
             ],
             decoration: InputDecoration(
-              hintText: "username",
+              hintText: "email",
               contentPadding: EdgeInsets.all(10.0),
             ),
           ),
@@ -220,10 +223,10 @@ class _LoginPage extends State<LoginPage> {
             controller: passController,
             validator: (val) {
               if (val.isEmpty) {
-                return "password cannot be empty";
+                return string.emptyPassword;
               }
               if (val.length < 6) {
-                return "password must be longer than 6 characters";
+                return string.invalidPassword;
               }
             },
             onSaved: (val) => _password = val,
@@ -242,10 +245,10 @@ class _LoginPage extends State<LoginPage> {
             controller: validPassController,
             validator: (val) {
               if (val.isEmpty) {
-                return "password cannot be empty";
+                return string.emptyPassword;
               }
               if (val.length < 6) {
-                return "password must be longer than 6 characters";
+                return string.invalidPassword;
               }
             },
             onSaved: (val) => _validPassword = val,
@@ -274,19 +277,19 @@ class _LoginPage extends State<LoginPage> {
         return [
           Expanded(
               child:
-                  longButton("login", "RED", _enabled ? submit : null, false)),
+                  longButton("login", "RED", _enabled ? submit : null)),
           Expanded(
               child: longButton(
-                  "signup?", "RED", _enabled ? moveToRegister : null, false)),
+                  "signup?", "RED", _enabled ? moveToRegister : null)),
         ];
       case FormType.register:
         return [
           Expanded(
               child: longButton(
-                  "register", "RED", _enabled ? submit : null, false)),
+                  "register", "RED", _enabled ? submit : null)),
           Expanded(
               child: longButton(
-                  "login?", "RED", _enabled ? moveToLogin : null, false)),
+                  "login?", "RED", _enabled ? moveToLogin : null)),
         ];
       default:
         return null;
@@ -301,8 +304,8 @@ class _LoginPage extends State<LoginPage> {
           Row(
             children: buttons(),
           ),
-          // longButton("google login", "YELLOW", loginHandler.doLogin(), false),
-          longButton("facebook login", "BLUE", () => null, false),
+          longButton("google login", "YELLOW", _enabled ? () => null : null),
+          longButton("facebook login", "BLUE", _enabled ? () => null : null),
         ],
       )),
     );
@@ -317,8 +320,6 @@ class _LoginPage extends State<LoginPage> {
       case FormType.register:
         title = "signup";
         break;
-      default:
-        title = "ohno";
     }
     return Container(
       padding: EdgeInsets.all(10.0),
