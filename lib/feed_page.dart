@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shannon/setting_page.dart';
+import 'package:shannon/globals/globals.dart';
+import 'package:shannon/login_page.dart';
 
 class FeedPage extends StatefulWidget {
   @override
@@ -11,6 +13,8 @@ class FeedPage extends StatefulWidget {
 var options = ['A-Z', 'Z-A', 'Lowest Price First', 'Highest Price First'];
 
 class _FeedPage extends State<FeedPage> with TickerProviderStateMixin {
+  GlobalKey<ScaffoldState> feedKey = GlobalKey();
+
   List<DropdownMenuItem<String>> menuOptions;
   List<Node> nodeList = [];
   String currentOption;
@@ -52,7 +56,7 @@ class _FeedPage extends State<FeedPage> with TickerProviderStateMixin {
       prefs.clear();
       print("cleared");
     });
-    // Navigator.popAndPushNamed(context, ModalRoute.withName("/LoginPage"));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
     print("poping");
   }
 
@@ -121,6 +125,32 @@ class _FeedPage extends State<FeedPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MyCustomScaffold(
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: EdgeInsets.all(10.0),
+            child: Slider(
+              divisions: 14,
+              min: 1.0,
+              max: 15.0,
+              onChanged: ((response) {
+                setState(() {
+                  if (distance != response) {
+                    distance = response;
+                  }
+                });
+              }),
+              onChangeEnd: ((response) {
+                changeItems(currentOption);
+              }),
+              value: distance,
+              label: distance.round().toString(),
+            ),
+          ),
+        ],
+      ),
+      key: feedKey,
       appBar: AppBar(
         title: Text(username),
         actions: <Widget>[
@@ -188,11 +218,10 @@ class Node {
 }
 
 class MyCustomScaffold extends Scaffold {
-  static final myKeyScafold = GlobalKey<ScaffoldState>();
-
   MyCustomScaffold({
     AppBar appBar,
     Widget body,
+    GlobalKey<ScaffoldState> key,
     Widget floatingActionButton,
     FloatingActionButtonLocation floatingActionButtonLocation,
     FloatingActionButtonAnimator floatingActionButtonAnimator,
@@ -204,12 +233,13 @@ class MyCustomScaffold extends Scaffold {
     Color backgroundColor,
     bool resizeToAvoidBottomPadding = true,
     bool primary = true,
-  }) : super(
-          key: myKeyScafold,
+  })  : assert(key != null),
+        super(
+          key: key,
           appBar: endDrawer != null &&
                   appBar.actions != null &&
                   appBar.actions.isNotEmpty
-              ? _buildEndDrawerButton(appBar)
+              ? _buildEndDrawerButton(appBar, key)
               : appBar,
           body: body,
           floatingActionButton: floatingActionButton,
@@ -225,11 +255,12 @@ class MyCustomScaffold extends Scaffold {
           primary: primary,
         );
 
-  static AppBar _buildEndDrawerButton(AppBar myAppBar) {
+  static AppBar _buildEndDrawerButton(
+      AppBar myAppBar, GlobalKey<ScaffoldState> _keyScaffold) {
     myAppBar.actions.add(IconButton(
         icon: Icon(Icons.menu),
-        onPressed: () => !myKeyScafold.currentState.isEndDrawerOpen
-            ? myKeyScafold.currentState.openEndDrawer()
+        onPressed: () => !_keyScaffold.currentState.isEndDrawerOpen
+            ? _keyScaffold.currentState.openEndDrawer()
             : null));
     return myAppBar;
   }

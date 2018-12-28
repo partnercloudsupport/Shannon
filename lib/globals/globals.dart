@@ -33,3 +33,5 @@ var flairs = [
   "Lecturer",
   "Provost",
 ];
+
+var distance = 10.0;

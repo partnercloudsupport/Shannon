@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shannon/widgets/button.dart';
 import 'package:flutter/services.dart';
 import 'package:shannon/handler/login_handler.dart';
-import 'package:shannon/builder/scaffold_builder.dart';
+import 'package:shannon/builder/snackbar_builder.dart';
 import 'package:shannon/editor_page.dart';
 import 'package:shannon/landing_page.dart';
 import 'package:email_validator/email_validator.dart';
@@ -40,7 +40,7 @@ class _LoginPage extends State<LoginPage> {
   LoginHandler loginHandler = LoginHandler();
 
   //Global strings.
-  Strings string = new Strings();
+  // Strings string = new Strings();
 
   bool verify() {
     var form = loginFormKey.currentState;
@@ -49,9 +49,9 @@ class _LoginPage extends State<LoginPage> {
       form.save();
       if (_formType == FormType.register) {
         if (_password != _validPassword) {
-          buildScaffold(
+          buildSnackbar(
               key: loginScaffoldKey.currentState,
-              text: string.passwordMismatch,
+              text: passwordMismatch,
               color: 'LIGHT');
           return false;
         }
@@ -75,7 +75,7 @@ class _LoginPage extends State<LoginPage> {
           toggle();
           print(response);
           if (response == 1) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => LandingPage()),
             );
@@ -86,9 +86,9 @@ class _LoginPage extends State<LoginPage> {
             );
           } else {
             loginFormKey.currentState.reset();
-            buildScaffold(
+            buildSnackbar(
                 key: loginScaffoldKey.currentState,
-                text: string.wrongLogin,
+                text: wrongLogin,
                 color: 'LIGHT');
           }
         });
@@ -102,9 +102,9 @@ class _LoginPage extends State<LoginPage> {
             );
           } else {
             loginFormKey.currentState.reset();
-            buildScaffold(
+            buildSnackbar(
                 key: loginScaffoldKey.currentState,
-                text: string.emailExists,
+                text: emailExists,
                 color: 'LIGHT');
           }
         });
@@ -149,10 +149,10 @@ class _LoginPage extends State<LoginPage> {
             controller: userController,
             validator: (val) {
               if (val.isEmpty) {
-                return string.emptyEmail;
+                return emptyEmail;
               }
               if (!EmailValidator.validate(val)) {
-                return string.invalidEmail;
+                return invalidEmail;
               }
             },
             onSaved: (val) => _username = val,
@@ -171,10 +171,10 @@ class _LoginPage extends State<LoginPage> {
             controller: passController,
             validator: (val) {
               if (val.isEmpty) {
-                return string.emptyPassword;
+                return emptyPassword;
               }
               if (val.length < 6) {
-                return string.invalidPassword;
+                return invalidPassword;
               }
             },
             onSaved: (val) => _password = val,
@@ -201,10 +201,10 @@ class _LoginPage extends State<LoginPage> {
             controller: userController,
             validator: (val) {
               if (val.isEmpty) {
-                return string.emptyPassword;
+                return emptyPassword;
               }
               if (!EmailValidator.validate(val)) {
-                return string.invalidEmail;
+                return invalidEmail;
               }
             },
             onSaved: (val) => _username = val,
@@ -223,10 +223,10 @@ class _LoginPage extends State<LoginPage> {
             controller: passController,
             validator: (val) {
               if (val.isEmpty) {
-                return string.emptyPassword;
+                return emptyPassword;
               }
               if (val.length < 6) {
-                return string.invalidPassword;
+                return invalidPassword;
               }
             },
             onSaved: (val) => _password = val,
@@ -245,10 +245,10 @@ class _LoginPage extends State<LoginPage> {
             controller: validPassController,
             validator: (val) {
               if (val.isEmpty) {
-                return string.emptyPassword;
+                return emptyPassword;
               }
               if (val.length < 6) {
-                return string.invalidPassword;
+                return invalidPassword;
               }
             },
             onSaved: (val) => _validPassword = val,

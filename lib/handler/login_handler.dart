@@ -6,7 +6,7 @@ import 'package:shannon/feed_page.dart';
 import 'package:shannon/globals/strings.dart';
 
 class LoginHandler {
-  Strings string = new Strings();
+  // Strings string = new Strings();
   // GoogleSignIn _googleSignIn = new GoogleSignIn(scopes: [
   //   'email',
   //   'https://www.googleapis.com/auth/contacts.readonly',
@@ -39,7 +39,7 @@ class LoginHandler {
       prefs.setString("uid", response.uid);
       print(response.uid);
       await Firestore.instance
-          .collection(string.userPath)
+          .collection(userPath)
           .document(response.uid)
           .get()
           .then((doc) {

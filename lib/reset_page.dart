@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:shannon/widgets/button.dart';
-import 'package:shannon/builder/scaffold_builder.dart';
+import 'package:shannon/builder/snackbar_builder.dart';
 import 'package:shannon/handler/login_handler.dart';
 import 'package:shannon/globals/strings.dart';
 
@@ -21,7 +21,7 @@ class _ResetPage extends State<ResetPage> {
   final TextEditingController emailController = TextEditingController();
 
   LoginHandler loginHandler = LoginHandler();
-  Strings strings = Strings();
+  // Strings strings = Strings();
   bool validate() {
     final form = resetFormKey.currentState;
     if (form.validate()) {
@@ -64,10 +64,10 @@ class _ResetPage extends State<ResetPage> {
         controller: emailController,
         validator: (val) {
           if (val.isEmpty) {
-            return strings.emptyEmail;
+            return emptyEmail;
           }
           if (!EmailValidator.validate(val)) {
-            return strings.invalidEmail;
+            return invalidEmail;
           }
         },
         onSaved: (val) => _email = val,

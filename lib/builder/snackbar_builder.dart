@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shannon/globals/globals.dart';
 
-buildScaffold({key, text, color, duration: 4}) {
+buildSnackbar({key, text, color, duration: 4}) {
   key.showSnackBar(SnackBar(
     backgroundColor: colors[color],
     duration: new Duration(seconds: duration),
