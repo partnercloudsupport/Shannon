@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shannon/widgets/button.dart';
-import 'package:shannon/handler/post_handler.dart';
+import 'package:shannon/widgets/entities.dart';
 import 'package:shannon/builder/snackbar_builder.dart';
 import 'package:shannon/globals/strings.dart';
+import 'package:shannon/handler/post_handler.dart';
+
 
 class PostPage extends StatefulWidget {
   @override
@@ -61,18 +62,18 @@ class _PostPage extends State<PostPage> {
     if (form.validate()) {
       form.save();
       await postHandler.submit(_post).then((response) {
-        if (!response) {
-          buildSnackbar(
-            key: postScaffoldKey.currentState,
-            color: "LIGHT",
-            text: invalidLocation,
-          );
-        } else {
+        if (response) {
           form.reset();
           buildSnackbar(
             key: postScaffoldKey.currentState,
             color: "LIGHT",
             text: postSuccess,
+          );
+        } else {
+          buildSnackbar(
+            key: postScaffoldKey.currentState,
+            color: "LIGHT",
+            text: invalidLocation,
           );
         }
       }).catchError((e) {

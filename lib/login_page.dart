@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shannon/widgets/button.dart';
+import 'package:shannon/widgets/entities.dart';
 import 'package:flutter/services.dart';
 import 'package:shannon/handler/login_handler.dart';
 import 'package:shannon/builder/snackbar_builder.dart';

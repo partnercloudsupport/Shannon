@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shannon/theme/theme.dart';
 import 'package:shannon/login_page.dart';
 import 'package:shannon/landing_page.dart';
+import 'package:shannon/comment_page.dart';
+import 'package:shannon/feed_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());

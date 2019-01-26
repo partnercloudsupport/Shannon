@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shannon/globals/globals.dart';
-import 'package:shannon/widgets/button.dart';
+import 'package:shannon/widgets/entities.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shannon/globals/strings.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -9,6 +11,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePage extends State<ProfilePage> {
+  // var username;
+  // var flair;
+  // var bio;
+  // var likes;
+
+  @override
+  initState() {
+    super.initState();
+    // setUsername();
+  }
+
   Widget title() {
     var title = 'carrein';
     return Container(
@@ -43,26 +56,26 @@ class _ProfilePage extends State<ProfilePage> {
     );
   }
 
-  Widget bio() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-      padding: EdgeInsets.all(20.0),
-      child: Center(
-        child: Text(
-          "See, what I want so much should never hurt this bad. Never did this before, that's what the virgin says. We've been generally warned, that's what the surgeon says. God, talk to me now, this is an emergency.",
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 18.0,
-            height: 1.5,
-          ),
-        ),
-      ),
-      decoration: BoxDecoration(
-        border: Border.all(color: colors["YELLOW"]),
-        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-      ),
-    );
-  }
+  // Widget bio() {
+  //   // return Container(
+  //   //   margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+  //   //   padding: EdgeInsets.all(20.0),
+  //   //   child: Center(
+  //   //     child: Text(
+  //   //       "See, what I want so much should never hurt this bad. Never did this before, that's what the virgin says. We've been generally warned, that's what the surgeon says. God, talk to me now, this is an emergency.",
+  //   //       textAlign: TextAlign.left,
+  //   //       style: TextStyle(
+  //   //         fontSize: 18.0,
+  //   //         height: 1.5,
+  //   //       ),
+  //   //     ),
+  //   //   ),
+  //   //   decoration: BoxDecoration(
+  //   //     border: Border.all(color: colors["YELLOW"]),
+  //   //     borderRadius: BorderRadius.all(Radius.circular(4.0)),
+  //   //   ),
+  //   // );
+  // }
 
   Widget likes() {
     return Container(
@@ -104,13 +117,33 @@ class _ProfilePage extends State<ProfilePage> {
         children: <Widget>[
           title(),
           flair(),
-          bio(),
+          // bio(),
+          // contentBox(content: "Chopin", color: "YELLOW"),
           likes(),
           circleButton(Icon(Icons.arrow_back), 'YELLOW', () => null),
         ],
       ),
     );
   }
+
+  // setProfile() async {
+  //   await SharedPreferences.getInstance().then((prefs) async {
+  //     await Firestore.instance
+  //         .collection(userPath)
+  //         .document(prefs.getString("uid"))
+  //         .get()
+  //         .then((snapshot) {
+
+
+  //         });
+  //   });
+    // SharedPreferences.getInstance().then((prefs) {
+    //   setState(() {
+    //     username =
+    //         prefs.get('username') != null ? prefs.get('username') : 'Guest';
+    //   });
+    // });
+  // }
 
   @override
   Widget build(BuildContext context) {

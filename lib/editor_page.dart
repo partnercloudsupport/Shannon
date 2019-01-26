@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shannon/globals/globals.dart';
-import 'package:shannon/widgets/button.dart';
+import 'package:shannon/widgets/entities.dart';
 import 'package:shannon/handler/editor_handler.dart';
 import 'package:shannon/landing_page.dart';
 
@@ -40,20 +40,26 @@ class _EditorPage extends State<EditorPage> {
         if (response) {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => LandingPage()));
-        } else {
-        }
+        } else {}
       });
     }
   }
 
   List<DropdownMenuItem<String>> getOptions() {
     List<DropdownMenuItem<String>> items = new List();
-    for (var flair in flairs) {
+    // for (var flair in flairs) {
+    // items.add(new DropdownMenuItem(
+    // value: flair,
+    // child: Text(flair),
+    // ));
+
+    // }
+    flairs.forEach((key, value) {
       items.add(new DropdownMenuItem(
-        value: flair,
-        child: Text(flair),
+        value: key,
+        child: Text(key),
       ));
-    }
+    });
     return items;
   }
 

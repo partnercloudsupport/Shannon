@@ -27,7 +27,8 @@ dependencies:
   email_validator: ^1.0.0
   geolocator: ^2.1.1
   android_intent: ^0.2.1
-
+  flutter_pagewise: ^1.2.0
+  http: ^0.12.0
   
 dev_dependencies:
   flutter_test:
@@ -47,7 +48,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   # assets:
-  #  - images/a_dot_burr.jpeg
+  #  - assets/mrt.yaml
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

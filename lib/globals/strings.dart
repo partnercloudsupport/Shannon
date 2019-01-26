@@ -10,7 +10,10 @@ var notfoundEmail = "email not found, please try again 😔";
 var invalidLocation = "Cannot access location. Check your permissions in settings.";
 var postSuccess = "Successfully posted!";
 var minLength = "Post should be at least 10 characters long.";
+var endOfList = "Nothing left to display!";
+var locationDisabled = "Location is disabled. Enable?";
 
 var userPath = "users";
 var postPath = "posts";
+var commentPath = "comments";
 var options = ['A-Z', 'Z-A', 'Lowest Price First', 'Highest Price First'];
